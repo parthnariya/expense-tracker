@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Header } from "./_components/Header";
 import Image from "next/image";
+import { Header } from "./_components/Header";
 
 const HomePage = () => {
   return (
@@ -25,11 +25,19 @@ const HomePage = () => {
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button>Get Started</Button>
 
-              <Button variant="link" className="text-primary">Learn More</Button>
+              <Button variant="link" className="text-primary">
+                Learn More
+              </Button>
             </div>
           </div>
         </div>
-      <Image src={'/image.png'} alt="dashboard" width={1000} height={700} className="mt-5 rounded-xl border-2"/>
+        <Image
+          src={"/image.png"}
+          alt="dashboard"
+          width={1000}
+          height={700}
+          className="mt-5 rounded-xl border-2"
+        />
       </section>
     </>
   );
