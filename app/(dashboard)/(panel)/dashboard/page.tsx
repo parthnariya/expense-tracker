@@ -9,7 +9,7 @@ const DashboardPage = async () => {
   if (!userId) {
     redirect("/sign-in");
   }
-  const budgets = await prisma.budgets.findFirst({
+  const budgets = await prisma.budget.findFirst({
     where: {
       createdBy: userId,
     },

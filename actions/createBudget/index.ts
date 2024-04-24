@@ -18,7 +18,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   const { amount, name, icon } = data;
   let budget;
   try {
-    budget = await prisma.budgets.create({
+    budget = await prisma.budget.create({
       data: {
         amount,
         createdBy: userId,

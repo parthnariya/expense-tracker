@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Header } from "./_components/Header";
+import Link from "next/link";
 
 const HomePage = () => {
   return (
@@ -23,7 +24,9 @@ const HomePage = () => {
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button>Get Started</Button>
+              <Button>
+                <Link href="/sign-in">Get Started</Link>
+              </Button>
 
               <Button variant="link" className="text-primary">
                 Learn More
