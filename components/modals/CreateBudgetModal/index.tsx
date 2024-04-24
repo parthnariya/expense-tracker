@@ -1,5 +1,6 @@
 "use client";
 
+import { createBoard } from "@/actions/createBudget";
 import FormInput from "@/components/form/FormInput";
 import FormSubmit from "@/components/form/FormSubmit";
 import { Button } from "@/components/ui/button";
@@ -11,15 +12,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ModalContext } from "@/contexts/ModelContextProvider";
+import { useAction } from "@/hooks/useAction";
 import { useUser } from "@clerk/nextjs";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { ElementRef, ElementType, useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 
 export const CreateBudgetModal = () => {
   const { user } = useUser();
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [emoji, setEmoji] = useState("🏠");
   const { handleClose, isOpen } = useContext(ModalContext);
+
+  const { execute, fieldErrors } = useAction(createBoard, {
+    onSuccess(data) {
+      console.log(`${data.name} created`);
+    },
+    onError(error) {
+      console.warn(error);
+    },
+  });
 
   // const formRef = useRef<ElementRef<"form">>(null);
 
@@ -32,7 +43,7 @@ export const CreateBudgetModal = () => {
 
   const onSubmitHandler = (formData: FormData) => {
     const name = formData.get("name") as string;
-    const amount = formData.get("amount") as string;
+    const amount = +(formData.get("amount") as string);
     console.log(
       {
         name,
@@ -41,6 +52,7 @@ export const CreateBudgetModal = () => {
       },
       user.id
     );
+    execute({ name, amount, icon: emoji });
   };
 
   return (
@@ -74,6 +86,7 @@ export const CreateBudgetModal = () => {
                   label="Budget Title"
                   className="text-sm px-2 py-1 h-10 font-medium transition"
                   placeholder="e.g. Home Decor"
+                  errors={fieldErrors}
                 />
                 <FormInput
                   id={"amount"}
@@ -81,6 +94,7 @@ export const CreateBudgetModal = () => {
                   className="text-sm px-2 py-1 h-10 font-medium transition"
                   placeholder="e.g. 5000"
                   type="number"
+                  errors={fieldErrors}
                 />
                 <FormSubmit>Create</FormSubmit>
               </form>
