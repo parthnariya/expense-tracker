@@ -11,30 +11,35 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { ModalContext } from "@/contexts/ModelContextProvider";
 import { useAction } from "@/hooks/useAction";
-import { useUser } from "@clerk/nextjs";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useContext, useState } from "react";
 
 export const CreateBudgetModal = () => {
-  const { user } = useUser();
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
   const [emoji, setEmoji] = useState("🏠");
   const { handleClose, isOpen } = useContext(ModalContext);
 
+  const { toast } = useToast();
+
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess(data) {
-      console.log(`${data.name} created`);
+      // console.log(`${data.name} created`);
+      toast({
+        title: `${data.name} created`,
+      });
     },
     onError(error) {
-      console.warn(error);
+      toast({
+        title: error,
+        variant: "destructive",
+      });
     },
   });
 
   // const formRef = useRef<ElementRef<"form">>(null);
-
-  if (!user) return null;
 
   const onEmojiClickHandler = (e: EmojiClickData) => {
     setEmoji(() => e.emoji);
@@ -44,14 +49,6 @@ export const CreateBudgetModal = () => {
   const onSubmitHandler = (formData: FormData) => {
     const name = formData.get("name") as string;
     const amount = +(formData.get("amount") as string);
-    console.log(
-      {
-        name,
-        amount,
-        emoji,
-      },
-      user.id
-    );
     execute({ name, amount, icon: emoji });
   };
 
