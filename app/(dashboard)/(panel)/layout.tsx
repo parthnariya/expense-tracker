@@ -1,8 +1,7 @@
 import { WithChild } from "@/lib/type";
-import { ClerkProvider } from "@clerk/nextjs";
-import React, { FC } from "react";
-import Sidebar from "./_components/Sidebar";
+import { FC } from "react";
 import Header from "./_components/Header";
+import Sidebar from "./_components/Sidebar";
 
 const PanelLayout: FC<WithChild> = ({ children }) => {
   return (
