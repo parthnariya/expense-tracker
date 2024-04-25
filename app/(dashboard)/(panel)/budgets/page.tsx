@@ -3,6 +3,7 @@ import { BudgetsList } from "./_components/BudgetsList";
 import { raw } from "@prisma/client/runtime/library";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 const BudgetsPage = async () => {
   const { userId } = auth();
@@ -11,43 +12,37 @@ const BudgetsPage = async () => {
     redirect("/sign-in");
   }
 
-  const expenseData = await prisma.expense.groupBy({
-    by: "budgetId",
-    _count: true,
-    _sum: {
-      amount: true,
-    },
-    where: {
-      createdBy: userId,
-    },
-  });
-  const budgetIds = expenseData.map((item) => item.budgetId);
-
   const budgets = await prisma.budget.findMany({
-    where: {
-      id: {
-        in: budgetIds,
+    include: {
+      Expense: {
+        select: {
+          id: true,
+          amount: true,
+        },
       },
     },
   });
+  const data = budgets.map((budget) => {
+    const totalItem = budget.Expense.length;
+    const totalSpent = budget.Expense.reduce(
+      (sum, expense) => sum + expense.amount,
+      0
+    );
 
-  const budgetByIds = Object.fromEntries(
-    budgets.map((budget) => [budget.id, budget])
-  );
-
-  const data = expenseData.map((item) => {
-    const budget = budgetByIds[item.budgetId];
     return {
       ...budget,
-      totalItem: item._count,
-      totalSpent: Number(item._sum.amount),
+      totalItem,
+      totalSpent,
     };
   });
 
+  // console.log(data);
   return (
     <main className="p-10">
       <h2 className="font-bold text-3xl">My Budget</h2>
-      <BudgetsList data={data} />
+      <Suspense fallback={<BudgetsList.Skeleton />}>
+        <BudgetsList data={data} />
+      </Suspense>
     </main>
   );
 };
