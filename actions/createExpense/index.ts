@@ -18,12 +18,25 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   const { amount, name, budgetId } = data;
   let expense;
   try {
+    const budget = await prisma.budget.findFirst({
+      where: {
+        createdBy: userId,
+        id: budgetId,
+      },
+    });
+
+    if (!budget) {
+      return {
+        error: "Budget is not found",
+      };
+    }
+
     expense = await prisma.expense.create({
       data: {
         amount,
         createdBy: userId,
         name,
-        budgetId,
+        budgetId: budget.id,
       },
     });
   } catch (error) {

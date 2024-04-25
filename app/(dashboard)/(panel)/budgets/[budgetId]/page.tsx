@@ -1,4 +1,3 @@
-import { toast } from "@/components/ui/use-toast";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { AddExpenseForm } from "../_components/AddExpenseForm";
@@ -25,10 +24,6 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
   });
 
   if (!budget) {
-    toast({
-      title: "Budget not fount",
-      variant: "destructive",
-    });
     redirect("/budgets");
   }
 
@@ -37,14 +32,20 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
     return result;
   }, 0);
 
-  Object.assign(budget, { totalSpent, totalItem: budget.Expense.length });
-  console.log(budget);
+  const data = Object.assign(budget, {
+    totalSpent,
+    totalItem: budget.Expense.length,
+  });
+  console.log(data);
 
   return (
     <main className="p-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <BudgetItem budget={budget} />
-        <AddExpenseForm />
+        <BudgetItem budget={data} />
+        <AddExpenseForm
+          budgetId={params.budgetId}
+          remainingAmount={data.amount - data.totalSpent}
+        />
       </div>
     </main>
   );
