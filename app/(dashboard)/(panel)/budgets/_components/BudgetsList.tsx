@@ -3,6 +3,7 @@ import { CreateBudgetForm } from "./CreateBudgetForm";
 // import { FC } from "react";
 import { BudgetItem } from "./BudgetItem";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 type Props = {
   data: BudgetWithExpense[];
@@ -14,7 +15,9 @@ export const BudgetsList = ({ data }: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
         <CreateBudgetForm />
         {data.map((item) => (
-          <BudgetItem budget={item} key={item.id} />
+          <Link key={item.id} href={`/budgets/${item.id}`}>
+            <BudgetItem budget={item} />
+          </Link>
         ))}
       </div>
     </div>

@@ -16,7 +16,7 @@ const BudgetItem: FC<Props> = ({ budget }) => {
     setPercentage(() => getPercentage(budget.amount, budget.totalSpent));
   }, [budget]);
   return (
-    <div className="p-5 border rounded-md cursor-pointer hover:shadow-md">
+    <div className="p-5 border rounded-md cursor-pointer hover:shadow-md max-h-[170px]">
       <div className="flex gap-2 items-center justify-between">
         <div className="flex gap-2 items-center">
           <h2 className="text-2xl py-3 px-4 bg-slate-100 rounded-full">

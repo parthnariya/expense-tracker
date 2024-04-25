@@ -5,7 +5,7 @@ import { InputType, ReturnType } from "./types";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/createSafeAction";
-import { CreateBudgetSchema } from "./schema";
+import { CreateExpenseSchema } from "./schema";
 import { auth } from "@clerk/nextjs/server";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
@@ -15,23 +15,23 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       error: "Unauthorize",
     };
   }
-  const { amount, name, icon } = data;
-  let budget;
+  const { amount, name, budgetId } = data;
+  let expense;
   try {
-    budget = await prisma.budget.create({
+    expense = await prisma.expense.create({
       data: {
         amount,
         createdBy: userId,
         name,
-        icon,
+        budgetId,
       },
     });
   } catch (error) {
-    return { error: "Failed to create budget" };
+    return { error: "Failed to create expense" };
   }
-  revalidatePath(`/budget`);
+  revalidatePath(`/budget/${budgetId}`);
   return {
-    data: budget,
+    data: expense,
   };
 };
-export const createBoard = createSafeAction(CreateBudgetSchema, handler);
+export const createExpense = createSafeAction(CreateExpenseSchema, handler);
