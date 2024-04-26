@@ -3,6 +3,7 @@
 import { createExpense } from "@/actions/createExpense";
 import FormInput from "@/components/form/FormInput";
 import FormSubmit from "@/components/form/FormSubmit";
+import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/use-toast";
 import { useAction } from "@/hooks/useAction";
 import { ElementRef, useRef } from "react";

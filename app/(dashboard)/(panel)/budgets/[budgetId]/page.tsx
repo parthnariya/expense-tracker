@@ -1,9 +1,12 @@
 import { prisma } from "@/lib/prisma";
+import { ArrowLeftIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { AddExpenseForm } from "../_components/AddExpenseForm";
 import { BudgetItem } from "../_components/BudgetItem";
-import ExpenseTable from "../_components/ExpenseTable";
 import { DeleteBudget } from "../_components/DeleteBudget";
+import ExpenseTable from "../_components/ExpenseTable";
+import Link from "next/link";
+import { EditBudgetForm } from "../_components/EditBudgetForm";
 
 type BudgetPageIdProps = {
   params: {
@@ -42,8 +45,16 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
   return (
     <main className="p-10">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-3xl">{data.name}</h2>
-        <DeleteBudget id={data.id} />
+        <h2 className="font-bold text-3xl flex items-center gap-2">
+          <Link href={"/budgets"}>
+            <ArrowLeftIcon className="cursor-pointer" />
+          </Link>
+          {data.name}
+        </h2>
+        <div className="flex gap-2">
+          <EditBudgetForm id={data.id} />
+          <DeleteBudget id={data.id} />
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-2">
         <BudgetItem budget={data} />
