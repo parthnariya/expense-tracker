@@ -13,6 +13,9 @@ const BudgetsPage = async () => {
   }
 
   const budgets = await prisma.budget.findMany({
+    where: {
+      createdBy: userId,
+    },
     include: {
       Expense: {
         select: {
