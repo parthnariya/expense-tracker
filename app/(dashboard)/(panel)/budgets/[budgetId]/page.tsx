@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { AddExpenseForm } from "../_components/AddExpenseForm";
 import { BudgetItem } from "../_components/BudgetItem";
+import ExpenseTable from "../_components/ExpenseTable";
 
 type BudgetPageIdProps = {
   params: {
@@ -40,12 +41,16 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
 
   return (
     <main className="p-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5">
         <BudgetItem budget={data} />
         <AddExpenseForm
           budgetId={params.budgetId}
           remainingAmount={data.amount - data.totalSpent}
         />
+      </div>
+      <div className="mt-4">
+        <h2>Latest Expenses</h2>
+        <ExpenseTable data={data.Expense} />
       </div>
     </main>
   );
