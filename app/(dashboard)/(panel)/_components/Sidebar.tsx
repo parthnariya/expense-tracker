@@ -7,14 +7,13 @@ import {
   ShieldCheckIcon,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import MenuItem from "./MenuItem";
 
 const MenuItems = [
   { id: 1, name: "Dashboard", icon: LayoutGridIcon, link: "/dashboard" },
   { id: 2, name: "Budgets", icon: PiggyBankIcon, link: "/budgets" },
   { id: 3, name: "Expenses", icon: ReceiptTextIcon, link: "/expense" },
-  { id: 4, name: "Upgrade", icon: ShieldCheckIcon, link: "" },
+  // { id: 4, name: "Upgrade", icon: ShieldCheckIcon, link: "" },
 ];
 
 const Sidebar = async () => {

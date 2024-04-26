@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AddExpenseForm } from "../_components/AddExpenseForm";
 import { BudgetItem } from "../_components/BudgetItem";
 import ExpenseTable from "../_components/ExpenseTable";
+import { DeleteBudget } from "../_components/DeleteBudget";
 
 type BudgetPageIdProps = {
   params: {
@@ -37,11 +38,14 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
     totalSpent,
     totalItem: budget.Expense.length,
   });
-  console.log(data);
 
   return (
     <main className="p-10">
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="flex justify-between items-center">
+        <h2 className="font-bold text-3xl">{data.name}</h2>
+        <DeleteBudget id={data.id} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-2">
         <BudgetItem budget={data} />
         <AddExpenseForm
           budgetId={params.budgetId}
@@ -49,8 +53,10 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
         />
       </div>
       <div className="mt-4">
-        <h2>Latest Expenses</h2>
-        <ExpenseTable data={data.Expense} />
+        <h2 className="font-bold text-lg">Latest Expenses</h2>
+        <div className="overflow-x-auto">
+          <ExpenseTable data={data.Expense} />
+        </div>
       </div>
     </main>
   );
