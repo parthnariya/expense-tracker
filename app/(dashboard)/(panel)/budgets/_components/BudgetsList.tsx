@@ -1,7 +1,7 @@
 import { BudgetWithExpense } from "@/lib/type";
 import { CreateBudgetForm } from "./CreateBudgetForm";
 // import { FC } from "react";
-import { BudgetItem } from "./BudgetItem";
+import { BudgetItem } from "../../_components/BudgetItem";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 
@@ -10,6 +10,7 @@ type Props = {
 };
 
 export const BudgetsList = ({ data }: Props) => {
+  console.log(data);
   return (
     <div className="mt-7">
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -38,6 +39,5 @@ BudgetsList.Skeleton = function BudgetsListSkeleton() {
     </div>
   );
 };
-
 
 // export { BudgetsList };

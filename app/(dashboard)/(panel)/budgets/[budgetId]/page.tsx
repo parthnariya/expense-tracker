@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { ArrowLeftIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import { AddExpenseForm } from "../_components/AddExpenseForm";
-import { BudgetItem } from "../_components/BudgetItem";
+import { BudgetItem } from "../../_components/BudgetItem";
 import { DeleteBudget } from "../_components/DeleteBudget";
 import ExpenseTable from "../_components/ExpenseTable";
 import Link from "next/link";
