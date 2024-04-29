@@ -8,7 +8,7 @@ type Props = {
 };
 
 const BudgetItem: FC<Props> = ({ budget }) => {
-  // console.log(budget.totalSpent,budget.amount)
+  console.log(budget)
   const [percentage, setPercentage] = useState(
     getPercentage(budget.amount, budget.totalSpent)
   );
@@ -25,7 +25,7 @@ const BudgetItem: FC<Props> = ({ budget }) => {
           <div>
             <h2 className="font-bold ">{budget.name}</h2>
             <h2 className="text-sm text-gray-500">
-              {budget.totalItem} expenses
+              {budget._count.Expense} expenses
             </h2>
           </div>
         </div>

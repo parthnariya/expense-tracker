@@ -24,6 +24,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         createdBy: userId,
         name,
         icon,
+        totalSpent : 0
       },
     });
   } catch (error) {

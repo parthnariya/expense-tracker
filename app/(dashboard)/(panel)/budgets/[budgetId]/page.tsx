@@ -25,6 +25,11 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
           updatedAt: "desc",
         },
       },
+      _count: {
+        select: {
+          Expense: true,
+        },
+      },
     },
   });
 
@@ -49,15 +54,15 @@ const BudgetPage = async ({ params }: BudgetPageIdProps) => {
           <Link href={"/budgets"}>
             <ArrowLeftIcon className="cursor-pointer" />
           </Link>
-          {data.name}
+          {budget.name}
         </h2>
         <div className="flex gap-2">
-          <EditBudgetForm id={data.id} />
-          <DeleteBudget id={data.id} />
+          {/* <EditBudgetForm id={budget.id} /> */}
+          <DeleteBudget id={budget.id} />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-2">
-        <BudgetItem budget={data} />
+        <BudgetItem budget={budget} />
         <AddExpenseForm
           budgetId={params.budgetId}
           remainingAmount={data.amount - data.totalSpent}

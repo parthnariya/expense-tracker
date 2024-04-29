@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { BudgetsList } from "./_components/BudgetsList";
-import { raw } from "@prisma/client/runtime/library";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import { BudgetsList } from "./_components/BudgetsList";
 
 const BudgetsPage = async () => {
   const { userId } = auth();
@@ -17,26 +16,13 @@ const BudgetsPage = async () => {
       createdBy: userId,
     },
     include: {
-      Expense: {
+      Expense: true,
+      _count: {
         select: {
-          id: true,
-          amount: true,
+          Expense: true,
         },
       },
     },
-  });
-  const data = budgets.map((budget) => {
-    const totalItem = budget.Expense.length;
-    const totalSpent = budget.Expense.reduce(
-      (sum, expense) => sum + expense.amount,
-      0
-    );
-
-    return {
-      ...budget,
-      totalItem,
-      totalSpent,
-    };
   });
 
   // console.log(data);
@@ -44,7 +30,7 @@ const BudgetsPage = async () => {
     <main className="p-10">
       <h2 className="font-bold text-3xl">My Budget</h2>
       <Suspense fallback={<BudgetsList.Skeleton />}>
-        <BudgetsList data={data} />
+        <BudgetsList data={budgets} />
       </Suspense>
     </main>
   );

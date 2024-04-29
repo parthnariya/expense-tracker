@@ -4,8 +4,10 @@ import { ReactNode } from "react";
 export type WithChild = { children: ReactNode };
 
 export type BudgetWithExpense = Budget & {
-  totalItem: number;
-  totalSpent: number;
+  Expense: Expense[];
+  _count: {
+    Expense: number;
+};
 };
 
 export type ExpenseWithBudget = Expense & {

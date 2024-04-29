@@ -39,6 +39,17 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         budgetId: budget.id,
       },
     });
+
+    const newTotalSpent = budget.totalSpent + amount;
+
+    await prisma.budget.update({
+      where: {
+        id: budget.id,
+      },
+      data: {
+        totalSpent: newTotalSpent,
+      },
+    });
   } catch (error) {
     return { error: "Failed to create expense" };
   }

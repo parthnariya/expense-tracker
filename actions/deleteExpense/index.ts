@@ -37,6 +37,17 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         budgetId: budget.id,
       },
     });
+
+    const newTotalSpent = budget.totalSpent - expense.amount;
+
+    await prisma.budget.update({
+      data: {
+        totalSpent: newTotalSpent,
+      },
+      where: {
+        id: budget.id,
+      },
+    });
   } catch (error) {
     return { error: "Failed to delete expense" };
   }
