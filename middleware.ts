@@ -18,7 +18,6 @@ export default clerkMiddleware(
   },
   { debug: true }
 );
-// console.log("hello");
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

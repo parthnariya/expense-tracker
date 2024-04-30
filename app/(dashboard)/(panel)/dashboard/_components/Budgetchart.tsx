@@ -1,14 +1,15 @@
 "use client";
 
 import { getCSS, getChartOptions } from "@/lib/getChartOptions";
-import { ElementRef, useCallback, useEffect, useRef } from "react";
+import { BudgetWithExpense } from "@/lib/type";
 import ApexCharts from "apexcharts";
+import { ElementRef, useCallback, useEffect, useRef } from "react";
 
-const data = [200, 100, 300, 400];
-const amount = [300, 110, 400, 450];
-const key = ["budget1", "budget2", "budget3", "budget4"];
+type PropsType = {
+  data: BudgetWithExpense[];
+};
 
-export function BudgetChart() {
+export function BudgetChart({ data }: PropsType) {
   const chartRef = useRef<ElementRef<"div">>(null);
 
   const refreshMode = useCallback(() => {
@@ -16,10 +17,13 @@ export function BudgetChart() {
       return;
     }
 
+    const totalSpent = data.map((item) => item.totalSpent);
+    const totalAmount = data.map((item) => item.amount);
+    const name = data.map((item) => item.name);
     const height = parseInt(getCSS(chartRef.current, "height"));
     const chart = new ApexCharts(
       chartRef.current,
-      getChartOptions(height, amount, data, key)
+      getChartOptions(height, totalAmount, totalSpent, name)
     );
     if (chart) {
       chart.render();

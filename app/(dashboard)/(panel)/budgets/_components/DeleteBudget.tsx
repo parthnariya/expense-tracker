@@ -39,7 +39,6 @@ export const DeleteBudget = ({ id }: PropsType) => {
     },
   });
   const deleteBudgetHandler = () => {
-    // console.log("hello")
     if (error) {
       toast({ title: error, variant: "destructive" });
     } else {

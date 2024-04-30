@@ -12,6 +12,19 @@ const DashboardPage = async () => {
   if (!user) {
     redirect("/sign-in");
   }
+
+  const budgets = await prisma.budget.findMany({
+    where: {
+      createdBy: user.id,
+    },
+    include: {
+      Expense: true,
+      _count: {
+        select: { Expense: true },
+      },
+    },
+  });
+
   const totalBudget = await prisma.budget.aggregate({
     where: {
       createdBy: user.id,
@@ -46,8 +59,8 @@ const DashboardPage = async () => {
         totalSpends={totalExpense._sum.amount ?? 0}
       />
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  mt-6 gap-3">
-        <BudgetChart />
-        <TrendsChart />
+        <BudgetChart data={budgets} />
+        <TrendsChart data={budgets} />
       </div>
     </main>
   );

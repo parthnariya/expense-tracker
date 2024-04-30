@@ -26,7 +26,6 @@ export const CreateBudgetModal = () => {
 
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess(data) {
-      // console.log(`${data.name} created`);
       toast({
         title: `${data.name} created`,
       });

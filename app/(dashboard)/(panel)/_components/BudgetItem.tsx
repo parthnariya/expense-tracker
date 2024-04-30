@@ -8,7 +8,6 @@ type Props = {
 };
 
 const BudgetItem: FC<Props> = ({ budget }) => {
-  console.log(budget)
   const [percentage, setPercentage] = useState(
     getPercentage(budget.amount, budget.totalSpent)
   );

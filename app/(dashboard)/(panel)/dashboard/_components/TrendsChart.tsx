@@ -1,5 +1,6 @@
 "use client";
 import { getChartOptions } from "@/lib/getSpendsChartOption";
+import { BudgetWithExpense } from "@/lib/type";
 import ApexCharts from "apexcharts";
 import { ElementRef, useCallback, useEffect, useRef } from "react";
 
@@ -11,7 +12,13 @@ const data = [
   },
 ];
 
-export const TrendsChart = () => {
+type PropsType = {
+  data: BudgetWithExpense[];
+};
+
+export const TrendsChart = ({ data }: PropsType) => {
+  
+  // console.log(data);
   const chartRef = useRef<ElementRef<"div">>(null);
 
   const refreshMode = useCallback(() => {
